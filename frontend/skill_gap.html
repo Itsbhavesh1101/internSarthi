@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Learning Path – internSarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#ECEDED] min-h-screen font-sans">
+    <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
+  <div class="w-full px-8 py-3 flex justify-between items-center">
+    <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
+
+    <div class="flex gap-4 text-sm items-center">
+      <a href="recommend.html"
+         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
+        Internships
+      </a>
+
+      <a href="skill_gap.html"
+         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
+        Learning Path
+      </a>
+
+      <a href="dashboard.html"
+         class="bg-[#1F2A3A] text-white px-4 py-2 rounded-xl text-sm
+                hover:opacity-90 active:scale-[0.98] transition">
+        Dashboard
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- PAGE HEADER -->
+<div class="max-w-6xl mx-auto px-4 mt-6 mb-6">
+  <h1 class="text-2xl font-bold text-[#0F172A] tracking-tight">
+    Learning Path
+  </h1>
+  <p class="text-sm text-gray-500 mt-1">
+    Recommended skills to improve your internship readiness
+  </p>
+</div>
+
+<div class="max-w-6xl mx-auto px-4">
+  <div class="h-px bg-gray-200"></div>
+</div>
+
+  <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm p-8">
+
+    <!-- HEADER -->
+    <div class="mb-6">
+      <h1 id="heading" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
+      <p class="text-sm text-gray-500">
+        Here is a simple learning path based on internships you are interested in.
+      </p>
+    </div>
+
+    <!-- INFO CARD -->
+    <div class="bg-[#1F2A3A] rounded-xl p-5 text-[#F9FAFB] mb-8">
+      <p class="text-sm leading-relaxed">
+        You don’t need to learn everything at once.
+        Focus on one internship and build skills step by step.
+      </p>
+    </div>
+
+    <!-- LEARNING PATH LIST -->
+    <div id="learningList" class="space-y-6">
+      <p class="text-sm text-gray-500">Loading learning path...</p>
+    </div>
+
+    <!-- NEXT ACTION -->
+    <div class="mt-10 flex justify-between">
+      <a
+        href="recommend.html"
+        class="text-sm text-gray-600 underline"
+      >
+        ← Back to internships
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const name = localStorage.getItem("user_name") || "there";
+    const roles = JSON.parse(localStorage.getItem("user_roles")) || [];
+    const role = roles[0]; // use primary role
+    const skills = localStorage.getItem("user_skills");
+
+    document.getElementById("heading").innerText =
+      `Hi ${name}, here’s your personalized learning path`;
+
+    fetch("http://127.0.0.1:8001/recommend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        role: role,
+        user_skills: skills.split(",").map(s => s.trim().toLowerCase())
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("learningList");
+      container.innerHTML = "";
+
+      if (!data.length) {
+        container.innerHTML =
+          "<p class='text-sm text-gray-500'>No learning suggestions available.</p>";
+        return;
+      }
+
+      data.forEach(item => {
+        const card = document.createElement("div");
+        card.className =
+          "bg-white border border-[#E5E7EB] rounded-xl p-6";
+
+        card.innerHTML = `
+          <h3 class="text-lg font-semibold text-[#0F172A] mb-1">
+            ${item.internship_title}
+          </h3>
+
+          <p class="text-sm text-gray-500 mb-3">
+            ${item.company_name} • ${item.location}
+          </p>
+
+          <p class="text-sm mb-3">
+            Skills you can learn for this internship:
+          </p>
+
+          <ul class="list-disc ml-6 text-sm text-gray-600">
+            ${
+              item.skills_to_learn.length
+                ? item.skills_to_learn.map(s => `<li>${s}</li>`).join("")
+                : "<li>You are already ready for this internship</li>"
+            }
+          </ul>
+
+          <p class="text-xs text-gray-500 mt-3">
+            Tip: Learn one or two skills first, then come back to apply.
+          </p>
+        `;
+
+        container.appendChild(card);
+      });
+    });
+  </script>
+
+</body>
+</html>

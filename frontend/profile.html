@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Profile – internSarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#ECEDED] min-h-screen flex items-center justify-center px-4">
+
+  <div class="bg-white rounded-2xl shadow-sm w-full max-w-2xl p-8">
+
+    <!-- GREETING -->
+    <div class="mb-6">
+      <h1 id="greeting" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
+      <p class="text-sm text-gray-500">
+        Let’s build your internship profile step by step.
+      </p>
+    </div>
+
+    <!-- INFO CARD -->
+    <div class="bg-[#1F2A3A] rounded-xl p-5 text-[#F9FAFB] mb-6">
+      <p class="text-sm leading-relaxed">
+        Don’t worry if you don’t know everything yet.
+        Just share what you already know — we’ll guide you from there.
+      </p>
+    </div>
+
+    <!-- FORM -->
+    <div class="space-y-5">
+
+      <!-- ROLE -->
+      <div>
+        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
+          Job role you want
+        </label>
+        <input
+          id="roles"
+          type="text"
+          placeholder="Example: data analyst, business analyst"
+          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+        />
+        <p class="text-xs text-gray-500 mt-1">
+          You can enter more than one role, separated by commas.
+        </p>
+      </div>
+
+      <!-- SKILLS -->
+      <div>
+        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
+          Skills you already know
+        </label>
+        <input
+          id="skills"
+          type="text"
+          placeholder="Example: python, sql, excel"
+          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+        />
+        <p class="text-xs text-gray-500 mt-1">
+          Write skills separated by commas.
+        </p>
+      </div>
+
+      <!-- Resume Upload -->
+      <div class="mt-6">
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          Upload Resume (PDF)
+        </label>
+
+        <input
+          type="file"
+          id="resume"
+          accept=".pdf"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+        />
+
+        <p class="text-xs text-gray-500 mt-1">
+          We will extract skills automatically from your resume.
+        </p>
+      </div>
+
+
+      <!-- LINKEDIN -->
+      <div>
+        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
+          LinkedIn profile (optional)
+        </label>
+        <input
+          id="linkedin"
+          type="text"
+          placeholder="https://linkedin.com/in/yourname"
+          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+        />
+        <p class="text-xs text-gray-500 mt-1">
+          Optional, but helps us understand your experience better.
+        </p>
+      </div>
+
+      <!-- SEEKING -->
+      <div>
+        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
+          What are you looking for?
+        </label>
+        <select
+          id="seeking"
+          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+        >
+          <option value="">Select one</option>
+          <option value="internship">Internship</option>
+          <option value="remote">Remote Internship</option>
+          <option value="paid">Paid Internship</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- BUTTON -->
+    <button
+      onclick="saveProfile()"
+      class="w-full mt-8 bg-[#1F2A3A] text-white py-3 rounded-xl font-medium hover:opacity-90 active:scale-[0.98] transition"
+    >
+      Save & Continue
+    </button>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    // Greeting
+    const name = localStorage.getItem("user_name") || "there";
+    document.getElementById("greeting").innerText = `Hii ${name} 👋`;
+
+
+    async function uploadResume(file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("http://127.0.0.1:8001/resume/analyze", {
+        method: "POST",
+        body: formData
+      });
+
+      return res.json();
+    }
+
+
+    async function saveProfile() {
+      const rolesInput = document.getElementById("roles").value.trim();
+      const skillsInput = document.getElementById("skills").value.trim();
+      const linkedin = document.getElementById("linkedin").value.trim();
+      const seeking = document.getElementById("seeking").value;
+      const resumeFile = document.getElementById("resume").files[0];
+
+      if (!rolesInput || !seeking) {
+        alert("Please fill in the required details");
+        return;
+      }
+
+      const roles = rolesInput
+        .split(",")
+        .map(r => r.trim())
+        .filter(Boolean);
+
+      let skills = skillsInput
+        ? skillsInput.split(",").map(s => s.trim().toLowerCase())
+        : [];
+
+      let resumeUploaded = false;
+
+      if (resumeFile) {
+        try {
+          const resumeData = await uploadResume(resumeFile);
+          if (resumeData.extracted_skills) {
+            skills = [...new Set([...skills, ...resumeData.extracted_skills])];
+          }
+          resumeUploaded = true;
+        } catch (err) {
+          console.error("Resume parsing failed", err);
+        }
+      }
+
+      localStorage.setItem("resume_uploaded", resumeUploaded ? "yes" : "no");
+
+
+      if (!skills.length) {
+        alert("Please enter skills or upload a resume");
+        return;
+      }
+
+      localStorage.setItem("user_roles", JSON.stringify(roles));
+      localStorage.setItem("user_skills", skills.join(","));
+      localStorage.setItem("user_linkedin", linkedin);
+      localStorage.setItem("user_seeking", seeking);
+
+      window.location.href = "recommend.html";
+    }
+  
+
+  </script>
+
+</body>
+</html>

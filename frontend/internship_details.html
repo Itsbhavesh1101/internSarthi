@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Internship Details – internSarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#ECEDED] min-h-screen">
+
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
+  <div class="w-full px-8 py-3 flex justify-between items-center">
+    <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
+
+    <div class="flex gap-4 text-sm items-center">
+      <a href="recommend.html"
+         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
+        Internships
+      </a>
+
+      <a href="skill_gap.html"
+         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
+        Learning Path
+      </a>
+
+      <a href="dashboard.html"
+         class="bg-[#1F2A3A] text-white px-4 py-2 rounded-xl text-sm
+                hover:opacity-90 active:scale-[0.98] transition">
+        Dashboard
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+   <!-- PAGE HEADER -->
+<div class="max-w-6xl mx-auto px-4 mt-6 mb-6">
+  <h1 class="text-2xl font-bold text-[#0F172A] tracking-tight">
+    Internship Details
+  </h1>
+  <p class="text-sm text-gray-500 mt-1">
+    Role information, requirements, and skill gap analysis
+  </p>
+</div>
+
+<div class="max-w-6xl mx-auto px-4">
+  <div class="h-px bg-gray-200"></div>
+</div>
+
+  <!-- CONTENT -->
+  <div class="max-w-5xl mx-auto px-4 py-8">
+
+    <div class="bg-white rounded-2xl shadow-sm p-8">
+
+      <!-- HEADER -->
+      <div class="mb-6">
+        <h1 id="title" class="text-2xl font-bold text-[#0F172A]"></h1>
+        <p id="company" class="text-sm text-gray-500 mt-1"></p>
+        <p id="location" class="text-sm text-gray-500"></p>
+      </div>
+
+      <!-- ROLE -->
+      <div class="mb-6">
+        <span
+          id="role"
+          class="inline-block px-3 py-1 rounded-full
+                 bg-[#1F2A3A]/10 text-[#1F2A3A] text-sm">
+        </span>
+      </div>
+
+      <!-- INFO CARD -->
+      <div class="bg-[#1F2A3A] text-white rounded-xl p-5 mb-6">
+        <p class="text-sm leading-relaxed">
+          This internship matches your profile and career goals.
+          You can apply now or prepare better using the learning path and interview practice.
+        </p>
+      </div>
+
+
+      <div class="grid md:grid-cols-2 gap-6 mt-6">
+
+  <div>
+    <p class="text-sm text-gray-500">Start Date</p>
+    <p id="start" class="font-medium"></p>
+  </div>
+
+  <div>
+    <p class="text-sm text-gray-500">Duration</p>
+    <p id="duration" class="font-medium"></p>
+  </div>
+
+  <div>
+    <p class="text-sm text-gray-500">Stipend</p>
+    <p id="stipend" class="font-medium"></p>
+  </div>
+
+  <div class="md:col-span-2">
+    <p class="text-sm text-gray-500 mb-1">Required Skills</p>
+    <p id="skills" class="text-sm"></p>
+  </div>
+
+</div>
+
+      <!-- SKILL GAP -->
+      <div class="mt-8">
+        <h2 class="text-lg font-semibold text-[#0F172A] mb-3">
+          Skill Gap for This Internship
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <div>
+            <p class="text-sm font-medium mb-2">You Already Have</p>
+            <ul id="haveSkills" class="list-disc ml-5 text-sm text-gray-600"></ul>
+          </div>
+
+          <div>
+            <p class="text-sm font-medium mb-2">You Should Learn</p>
+            <ul id="missingSkills" class="list-disc ml-5 text-sm text-gray-600"></ul>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+      <!-- ACTIONS -->
+      <div class="flex flex-wrap gap-4 mb-8 mt-6">
+
+        <button
+          onclick="startInterview()"
+          class="bg-[#1F2A3A] text-white px-5 py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.98] transition">
+          Practice Interview
+        </button>
+      </div>
+
+      <!-- STATUS -->
+      <div id="statusMsg" class="text-sm text-green-600 mb-6 hidden"></div>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+  window.addEventListener("DOMContentLoaded", async () => {
+
+    const raw = localStorage.getItem("selected_internship");
+    if (!raw) {
+      document.body.innerHTML = "<p>No internship selected.</p>";
+      return;
+    }
+
+    const { title, company } = JSON.parse(raw);
+
+    const res = await fetch(
+      `http://127.0.0.1:8001/internship-detail?title=${encodeURIComponent(title)}&company=${encodeURIComponent(company)}`
+    );
+
+    const data = await res.json();
+
+    if (data.error) {
+      document.body.innerHTML = "<p>Internship not found.</p>";
+      return;
+    }
+
+    const userSkillsLower =
+      (localStorage.getItem("user_skills") || "")
+        .split(",")
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
+
+    
+    // ORIGINAL CASE — FOR DISPLAY
+    const requiredSkillsOriginal =
+      (data.required_skills || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+
+
+    // LOWERCASE version (ONLY for comparison)
+    const requiredSkillsLower =
+      requiredSkillsOriginal.map(s => s.toLowerCase());
+    
+
+    const have = [];
+    const missing = [];
+
+    requiredSkillsOriginal.forEach((skill, index) => {
+      if (userSkillsLower.includes(requiredSkillsLower[index])) {
+        have.push(skill);     // ORIGINAL CASE
+      } else {
+        missing.push(skill);  // ORIGINAL CASE
+      }
+    });
+
+
+
+    const haveList = document.getElementById("haveSkills");
+    const missingList = document.getElementById("missingSkills");
+
+    if (!have.length) {
+      haveList.innerHTML = "<li>No matching skills yet</li>";
+    } else {
+      have.forEach(skill => {
+        const li = document.createElement("li");
+        li.innerText = skill; // ORIGINAL CASE
+        haveList.appendChild(li);
+      });
+    }
+
+    if (!missing.length) {
+      missingList.innerHTML = "<li>You are fully ready for this role 🎉</li>";
+    } else {
+      missing.forEach(skill => {
+        const li = document.createElement("li");
+        li.innerText = skill; // ORIGINAL CASE
+        missingList.appendChild(li);
+      });
+    }
+
+
+
+
+
+    // Fill UI
+    document.getElementById("title").innerText = data.internship_title;
+    document.getElementById("company").innerText = data.company_name;
+    document.getElementById("location").innerText = data.location;
+
+    document.getElementById("role").innerText = data.internship_title;
+
+    // Extra fields
+    document.getElementById("start").innerText = data.start_date;
+    document.getElementById("duration").innerText = data.duration;
+    document.getElementById("stipend").innerText = data.stipend;
+
+    document.getElementById("skills").innerText =
+      data.required_skills || "Not specified";
+
+  });
+
+
+
+  function startInterview() {
+    const raw = localStorage.getItem("selected_internship");
+    if (!raw) {
+      alert("No internship selected for interview.");
+      return;
+    }
+
+    const { title } = JSON.parse(raw);
+
+    // Store role for interview page
+    localStorage.setItem("interview_role", title);
+
+    // Navigate
+    window.location.href = "interview.html";
+  }
+
+
+</script>
+
+
+
+</body>
+</html>

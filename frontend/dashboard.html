@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard – internSarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#ECEDED] min-h-screen font-sans">
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
+    <div class="w-full px-8 py-3 flex justify-between items-center">
+      <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
+
+      <div class="flex gap-4 text-sm items-center">
+        <a href="recommend.html" class="text-gray-600 hover:text-black transition hover:opacity-90 active:scale-[0.98] transition">Internships</a>
+        <a href="skill_gap.html" class="text-gray-600 hover:text-black transition hover:opacity-90 active:scale-[0.98] transition">Learning Path</a>
+
+        <span class="bg-[#1F2A3A] text-white px-4 py-2 rounded-xl text-sm">
+          Dashboard
+        </span>
+      </div>
+    </div>
+  </nav>
+
+
+ <!-- PAGE HEADER -->
+<div class="max-w-6xl mx-auto px-4 mt-6 mb-6">
+  <h1 class="text-2xl font-bold text-[#0F172A] tracking-tight">
+    Dashboard
+  </h1>
+  <p class="text-sm text-gray-500 mt-1">
+    Overview of your internships, skills, and progress
+  </p>
+</div>
+
+<div class="max-w-6xl mx-auto px-4">
+  <div class="h-px bg-gray-200"></div>
+</div>
+
+
+
+  <!-- CONTENT -->
+  <div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- GREETING -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <h1 id="dashName" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
+      <p class="text-sm text-gray-500">
+        This is your personal career dashboard. Track your progress and plan your next steps.
+
+      </p>
+    </div>
+
+    <!-- PROFILE SUMMARY -->
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- ROLES -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-sm font-semibold text-[#0F172A]">
+            Your Target Roles
+          </h2>
+          <button
+            onclick="addRole()"
+            class="text-xs text-[#1F2A3A] underline hover:text-black transition hover:opacity-90 active:scale-[0.98] transition">
+            + Add Role
+          </button>
+        </div>
+
+        <div id="roleList" class="flex flex-wrap gap-2"></div>
+
+
+      </div>
+
+      <!-- SKILLS -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-sm font-semibold text-[#0F172A]">
+            Your Current Skills
+          </h2>
+          <button
+            onclick="addSkill()"
+            class="text-xs text-[#1F2A3A] underline hover:text-black transition hover:opacity-90 active:scale-[0.98] transition">
+            + Add Skill
+          </button>
+        </div>
+
+        <div id="skillList" class="flex flex-wrap gap-2"></div>
+
+
+      </div>
+
+      <!-- RESUME / LINKEDIN -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-sm font-semibold mb-3 text-[#0F172A]">
+          Profile Status
+        </h2>
+        <p id="resumeStatus" class="text-sm mb-1"></p>
+        <p id="linkedinStatus" class="text-sm"></p>
+      </div>
+
+    </div>
+
+    <!-- INTERNSHIP TRACKER -->
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- SAVED -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold mb-4 text-[#0F172A]">
+          Saved Internships
+        </h2>
+        <ul id="savedList" class="text-sm text-gray-600 space-y-2"></ul>
+      </div>
+
+      <!-- APPLIED -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold mb-4 text-[#0F172A]">
+          Applied Internships
+        </h2>
+        <ul id="appliedList" class="text-sm text-gray-600 space-y-2"></ul>
+      </div>
+
+      <a href="recommend.html"
+         class="inline-block mt-4 text-sm text-[#1F2A3A] underline hover:text-black transition hover:opacity-90 active:scale-[0.98] transition">
+        Explore more internships →
+      </a>
+    </div>
+
+
+    <!-- INTERVIEW HISTORY -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <h2 class="text-lg font-semibold mb-4 text-[#0F172A]">
+        Interview History
+      </h2>
+
+      <ul id="interviewHistory" class="text-sm text-gray-600 space-y-3"></ul>
+    </div>
+
+
+
+    <!-- ACTIONS -->
+    <div class="flex gap-4">
+      <a href="skill_gap.html"
+         class="bg-[#1F2A3A] text-white px-5 py-3 rounded-xl text-sm hover:opacity-90 active:scale-[0.98] transition">
+        View Learning Path
+      </a>
+
+      <a href="profile.html"
+         class="border border-gray-300 px-5 py-3 rounded-xl text-sm hover:opacity-90 active:scale-[0.98] transition">
+        Edit Profile
+      </a>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script defer>
+    const name = localStorage.getItem("user_name") || "there";
+    const roles = JSON.parse(localStorage.getItem("user_roles")) || [];
+    const skills = (localStorage.getItem("user_skills") || "")
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const saved = JSON.parse(localStorage.getItem("saved_internships")) || [];
+    const applied = JSON.parse(localStorage.getItem("applied_internships")) || [];
+    const linkedin = localStorage.getItem("user_linkedin");
+    const resumeUploaded = localStorage.getItem("resume_uploaded");
+
+    document.getElementById("dashName").innerText = `Hi ${name} 👋`;
+
+    const roleList = document.getElementById("roleList");
+    roles.forEach(role => {
+      const btn = document.createElement("span");
+      btn.className =
+        "px-3 py-1 rounded-full bg-[#1F2A3A]/10 text-[#1F2A3A] text-sm";
+      btn.innerText = role;
+      roleList.appendChild(btn);
+    });
+
+
+    const skillList = document.getElementById("skillList");
+    skills.forEach(skill => {
+      const chip = document.createElement("span");
+      chip.className =
+        "px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm";
+      chip.innerText = skill;
+      skillList.appendChild(chip);
+    });
+
+
+    document.getElementById("resumeStatus").innerText =
+      resumeUploaded === "yes"
+        ? "✔ Resume uploaded"
+        : "⚠ Resume not uploaded";
+
+
+    document.getElementById("linkedinStatus").innerText =
+      linkedin
+        ? "✔ LinkedIn connected"
+        : "⚠ LinkedIn not connected";
+
+    const savedList = document.getElementById("savedList");
+
+    if (!saved.length) {
+      savedList.innerHTML = "<li>No saved internships.</li>";
+    } else {
+      saved.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <div class="flex justify-between items-center">
+            <button
+              class="text-left text-sm text-[#1F2A3A] underline hover:opacity-90 active:scale-[0.98] transition"
+              onclick="openInternship('${item.title}', '${item.company}')">
+              ${item.title} <span class="text-gray-500">(${item.company})</span>
+            </button>
+
+            <button
+              onclick="startInterview('${item.title}')"
+              class="text-xs bg-[#1F2A3A] text-white px-3 py-1 rounded-lg hover:opacity-90 active:scale-[0.98] transition"">
+              Interview
+            </button>
+          </div>
+        `;
+        savedList.appendChild(li);
+      });
+
+    }
+
+
+    const appliedList = document.getElementById("appliedList");
+
+    if (!applied.length) {
+      appliedList.innerHTML = "<li>No applied internships yet.</li>";
+    } else {
+      applied.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <div class="flex justify-between items-center">
+            <button
+              class="text-left text-sm text-[#1F2A3A] underline hover:opacity-90 active:scale-[0.98] transition"
+              onclick="openInternship('${item.title}', '${item.company}')">
+              ${item.title} <span class="text-gray-500">(${item.company})</span>
+            </button>
+
+            <button
+              onclick="startInterview('${item.title}')"
+              class="text-xs bg-[#1F2A3A] text-white px-3 py-1 rounded-lg hover:opacity-90 active:scale-[0.98] transition"">
+              Interview
+            </button>
+          </div>
+        `;
+        appliedList.appendChild(li);
+      });
+    }
+
+
+
+    function startInterview(title) {
+      localStorage.setItem("interview_role", title);
+      window.location.href = "interview.html";
+    }
+
+    const interviewHistory =
+      JSON.parse(localStorage.getItem("interview_history")) || [];
+
+
+    const historyList = document.getElementById("interviewHistory");
+
+    if (!interviewHistory.length) {
+      historyList.innerHTML =
+        "<li>No interviews practiced yet.</li>";
+    } else {
+      interviewHistory.forEach(item => {
+        const li = document.createElement("li");
+        li.className = "border border-gray-200 rounded-lg p-3";
+
+        li.innerHTML = `
+          <p class="font-medium">${item.role}</p>
+          <p class="text-xs text-gray-500">
+            Date: ${item.date} • Questions: ${item.questions_attempted}
+          </p>
+          <p class="text-sm mt-1">
+            Readiness Score:
+            <b>${item.readiness_score}%</b>
+          </p>
+        `;
+
+        historyList.appendChild(li);
+      });
+    }
+
+
+    function openInternship(title, company) {
+      localStorage.setItem(
+        "selected_internship",
+        JSON.stringify({ title, company })
+      );
+      window.location.href = "internship_details.html";
+    }
+
+    function addRole() {
+      const newRole = prompt("Enter a new target role:");
+      if (!newRole) return;
+
+      let roles =
+        JSON.parse(localStorage.getItem("user_roles")) || [];
+
+      // CASE-INSENSITIVE CHECK
+      const exists = roles.some(
+        r => r.toLowerCase() === newRole.toLowerCase()
+      );
+
+      if (exists) {
+        alert("This role already exists.");
+        return;
+      }
+
+      // STORE ORIGINAL CASE
+      roles.push(newRole);
+      localStorage.setItem("user_roles", JSON.stringify(roles));
+
+      const chip = document.createElement("span");
+      chip.className =
+        "px-3 py-1 rounded-full bg-[#1F2A3A]/10 text-[#1F2A3A] text-sm";
+      chip.innerText = newRole;
+
+      document.getElementById("roleList").appendChild(chip);
+    }
+
+
+    function addSkill() {
+      const newSkill = prompt("Enter a new skill:");
+      if (!newSkill) return;
+
+      let skills =
+        (localStorage.getItem("user_skills") || "")
+          .split(",")
+          .map(s => s.trim())
+          .filter(Boolean);
+
+      // CASE-INSENSITIVE CHECK
+      const exists = skills.some(
+        s => s.toLowerCase() === newSkill.toLowerCase()
+      );
+
+      if (exists) {
+        alert("This skill already exists.");
+        return;
+      }
+
+      // STORE ORIGINAL CASE
+      skills.push(newSkill);
+      localStorage.setItem("user_skills", skills.join(","));
+
+      const chip = document.createElement("span");
+      chip.className =
+        "px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm";
+      chip.innerText = newSkill;
+
+      document.getElementById("skillList").appendChild(chip);
+ }
+
+
+
+
+
+  
+  </script>
+
+</body>
+</html>

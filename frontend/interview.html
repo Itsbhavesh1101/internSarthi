@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mock Interview – internSarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#ECEDED] min-h-screen">
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
+    <div class="w-full px-8 py-3 flex justify-between items-center">
+      <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
+      <a href="dashboard.html" class="text-sm text-gray-600 underline">
+        Back to Dashboard
+      </a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="max-w-3xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- HEADER -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <h1 id="roleTitle" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
+      <p class="text-sm text-gray-500">
+        Answer honestly. This is practice, not an exam.
+      </p>
+    </div>
+
+    <!-- QUESTION CARD -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm">
+      <p id="questionText" class="text-lg font-medium text-[#0F172A] mb-4">
+        Loading question...
+      </p>
+
+      <textarea
+        id="answer"
+        rows="5"
+        placeholder="Type your answer here..."
+        class="w-full border border-gray-300 rounded-xl p-4 text-sm focus:outline-none"
+      ></textarea>
+
+      <button
+        onclick="submitAnswer()"
+        class="mt-4 bg-[#1F2A3A] text-white px-6 py-3 rounded-xl text-sm hover:opacity-90 active:scale-[0.98] transition"
+      >
+        Submit Answer
+      </button>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div id="feedbackCard"
+         class="bg-white rounded-2xl p-6 shadow-sm hidden">
+      <h2 class="text-lg font-semibold text-[#0F172A] mb-2">
+        Feedback
+      </h2>
+
+      <p id="scoreText" class="text-sm mb-2"></p>
+
+      <p class="text-sm font-medium mb-1">What went well:</p>
+      <ul id="matchedList" class="list-disc ml-6 text-sm text-gray-600 mb-3"></ul>
+
+      <p class="text-sm font-medium mb-1">You can improve by mentioning:</p>
+      <ul id="missingList" class="list-disc ml-6 text-sm text-gray-600"></ul>
+
+      <button
+        onclick="nextQuestion()"
+        class="mt-4 border border-gray-300 px-5 py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.98] transition"
+      >
+        Next Question
+      </button>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script defer>
+    const role = localStorage.getItem("interview_role");
+
+    if (!role) {
+      alert("No interview role found.");
+      window.location.href = "dashboard.html";
+    }
+
+    document.getElementById("roleTitle").innerText =
+      `Mock Interview for ${role}`;
+
+    let questions = [];
+    let currentIndex = 0;
+    let totalScore = 0;
+    let answeredCount = 0;
+
+
+    async function loadQuestions() {
+      const res = await fetch("http://127.0.0.1:8001/interview/questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role })
+      });
+
+      const data = await res.json();
+      totalScore += data.confidence_score;
+      answeredCount += 1;
+
+      questions = data.questions || [];
+
+      if (!questions.length) {
+        document.getElementById("questionText").innerText =
+          "No questions available for this role.";
+        return;
+      }
+
+      showQuestion();
+    }
+
+    function showQuestion() {
+      document.getElementById("feedbackCard").classList.add("hidden");
+      document.getElementById("answer").value = "";
+      document.getElementById("questionText").innerText =
+        questions[currentIndex];
+    }
+
+    async function submitAnswer() {
+      const answer = document.getElementById("answer").value.trim();
+      if (!answer) {
+        alert("Please type an answer");
+        return;
+      }
+
+      const res = await fetch("http://127.0.0.1:8001/interview/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          role,
+          answer
+        })
+      });
+
+      const data = await res.json();
+
+      document.getElementById("scoreText").innerText =
+        `Confidence Score: ${data.confidence_score}%`;
+
+      const matched = document.getElementById("matchedList");
+      matched.innerHTML = "";
+      data.matched_keywords.forEach(k => {
+        const li = document.createElement("li");
+        li.innerText = k;
+        matched.appendChild(li);
+      });
+
+      const missing = document.getElementById("missingList");
+      missing.innerHTML = "";
+      data.missing_keywords.forEach(k => {
+        const li = document.createElement("li");
+        li.innerText = k;
+        missing.appendChild(li);
+      });
+
+      document.getElementById("feedbackCard").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+
+      if (currentIndex >= questions.length) {
+        const readinessScore = Math.round(totalScore / answeredCount);
+
+        saveInterviewHistory(readinessScore);
+
+        alert(`Interview completed!\nYour readiness score: ${readinessScore}%`);
+        window.location.href = "dashboard.html";
+        return;
+      }
+
+    function saveInterviewHistory(score) {
+      const history =
+        JSON.parse(localStorage.getItem("interview_history")) || [];
+
+      history.push({
+        role: role,
+        date: new Date().toLocaleDateString(),
+        questions_attempted: answeredCount,
+        readiness_score: score
+      });
+
+      localStorage.setItem("interview_history", JSON.stringify(history));
+    }
+
+
+
+      showQuestion();
+    }
+
+    loadQuestions();
+  </script>
+
+</body>
+</html>
