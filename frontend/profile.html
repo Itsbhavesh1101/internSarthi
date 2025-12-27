@@ -136,7 +136,7 @@
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("http://127.0.0.1:8001/resume/analyze", {
+      const res = await fetch("https://internsarthi-hhn7.onrender.com/resume/analyze", {
         method: "POST",
         body: formData
       });

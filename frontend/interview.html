@@ -95,7 +95,7 @@
 
 
     async function loadQuestions() {
-      const res = await fetch("http://127.0.0.1:8001/interview/questions", {
+      const res = await fetch("https://internsarthi-hhn7.onrender.com/interview/questions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role })
@@ -130,7 +130,7 @@
         return;
       }
 
-      const res = await fetch("http://127.0.0.1:8001/interview/evaluate", {
+      const res = await fetch("https://internsarthi-hhn7.onrender.com/interview/evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -157,7 +157,7 @@
     const { title, company } = JSON.parse(raw);
 
     const res = await fetch(
-      `http://127.0.0.1:8001/internship-detail?title=${encodeURIComponent(title)}&company=${encodeURIComponent(company)}`
+      `https://internsarthi-hhn7.onrender.com/internship-detail?title=${encodeURIComponent(title)}&company=${encodeURIComponent(company)}`
     );
 
     const data = await res.json();
