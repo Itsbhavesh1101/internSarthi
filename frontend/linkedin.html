@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LinkedIn Analyzer – internSarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#F9FAFB] text-[#374151]">
+
+<nav class="bg-white border-b border-[#E5E7EB]">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+    <div class="text-xl font-bold text-black">
+      internSarthi
+    </div>
+
+    <div class="space-x-6 text-sm font-medium">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="profile.html" class="hover:underline">Profile</a>
+      <a href="recommend.html" class="hover:underline">Internships</a>
+      <a href="skill_gap.html" class="hover:underline">Skill Gap</a>
+      <a href="linkedin.html" class="hover:underline">LinkedIn</a>
+      <a href="interview.html" class="hover:underline">Interview</a>
+      <a href="dashboard.html" class="hover:underline">Dashboard</a>
+    </div>
+
+  </div>
+</nav>
+
+
+
+<div class="max-w-4xl mx-auto p-8">
+
+  <h2 class="text-3xl font-bold text-black mb-4">
+    LinkedIn Profile Analyzer
+  </h2>
+
+  <p class="mb-6">
+    Paste your LinkedIn “About” or experience text below.
+    We will analyze it and suggest improvements.
+  </p>
+
+  <!-- Input -->
+  <label class="block mb-2 font-medium">LinkedIn Profile Text</label>
+  <textarea
+    id="profileText"
+    rows="6"
+    class="w-full border p-3 mb-4"
+    placeholder="Example: I worked as a data analyst using python and sql..."></textarea>
+
+  <label class="block mb-2 font-medium">Target Role</label>
+  <input
+    id="targetRole"
+    type="text"
+    class="w-full border p-2 mb-6"
+    placeholder="data analyst">
+
+  <button
+    onclick="analyzeLinkedIn()"
+    class="bg-black text-white px-6 py-2 rounded">
+    Analyze Profile
+  </button>
+
+  <!-- Results -->
+  <div id="results" class="mt-8 hidden">
+
+    <div class="bg-white border border-[#E5E7EB] p-6 rounded mb-4">
+      <h3 class="font-bold text-black mb-2">Detected Roles</h3>
+      <ul id="roles" class="list-disc ml-5"></ul>
+    </div>
+
+    <div class="bg-white border border-[#E5E7EB] p-6 rounded mb-4">
+      <h3 class="font-bold text-black mb-2">Detected Skills</h3>
+      <ul id="skills" class="list-disc ml-5"></ul>
+    </div>
+
+    <div class="bg-white border border-[#E5E7EB] p-6 rounded">
+      <h3 class="font-bold text-black mb-2">Skills / Keywords to Add</h3>
+      <ul id="missing" class="list-disc ml-5"></ul>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function analyzeLinkedIn() {
+  const text = document.getElementById("profileText").value;
+  const role = document.getElementById("targetRole").value;
+
+  if (!text || !role) {
+    alert("Please enter profile text and target role");
+    return;
+  }
+
+  fetch("http://127.0.0.1:8001/linkedin/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      profile_text: text,
+      target_role: role
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("results").classList.remove("hidden");
+
+    document.getElementById("roles").innerHTML =
+      data.detected_roles.length
+        ? data.detected_roles.map(r => `<li>${r}</li>`).join("")
+        : "<li>No roles detected</li>";
+
+    document.getElementById("skills").innerHTML =
+      data.detected_skills.length
+        ? data.detected_skills.map(s => `<li>${s}</li>`).join("")
+        : "<li>No skills detected</li>";
+
+    document.getElementById("missing").innerHTML =
+      data.missing_keywords.length
+        ? data.missing_keywords.map(k => `<li>${k}</li>`).join("")
+        : "<li>No missing keywords</li>";
+  });
+}
+</script>
+
+</body>
+</html>
