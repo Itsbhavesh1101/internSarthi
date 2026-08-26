@@ -5,16 +5,27 @@
   <title>Mock Interview – internSarthi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
 
-<body class="bg-[#ECEDED] min-h-screen">
+<body class="bg-slate-50 min-h-screen text-slate-800">
 
   <!-- NAVBAR -->
-  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
-    <div class="w-full px-8 py-3 flex justify-between items-center">
-      <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
-      <a href="dashboard.html" class="text-sm text-gray-600 underline">
-        Back to Dashboard
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 text-white font-black rounded-xl w-9 h-9 flex items-center justify-center shadow-md shadow-indigo-600/30">
+          iS
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-900">internSarthi</span>
+      </div>
+
+      <a href="dashboard.html" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+        ← Back to Dashboard
       </a>
     </div>
   </nav>
@@ -23,175 +34,191 @@
   <div class="max-w-3xl mx-auto px-4 py-8 space-y-6">
 
     <!-- HEADER -->
-    <div class="bg-white rounded-2xl p-6 shadow-sm">
-      <h1 id="roleTitle" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
-      <p class="text-sm text-gray-500">
-        Answer honestly. This is practice, not an exam.
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">AI Interview Prep</span>
+      </div>
+      <h1 id="roleTitle" class="text-2xl font-bold text-slate-900 mb-1">
+        Mock Interview Practice
+      </h1>
+      <p class="text-sm text-slate-500">
+        Answer the interview questions below to test your readiness and receive instant AI feedback.
       </p>
     </div>
 
     <!-- QUESTION CARD -->
-    <div class="bg-white rounded-2xl p-6 shadow-sm">
-      <p id="questionText" class="text-lg font-medium text-[#0F172A] mb-4">
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+      <div class="flex justify-between items-center mb-4">
+        <span id="questionCounter" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Question 1</span>
+      </div>
+
+      <p id="questionText" class="text-lg font-semibold text-slate-900 mb-4">
         Loading question...
       </p>
 
       <textarea
         id="answer"
         rows="5"
-        placeholder="Type your answer here..."
-        class="w-full border border-gray-300 rounded-xl p-4 text-sm focus:outline-none"
+        placeholder="Type your detailed answer here..."
+        class="w-full border border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
       ></textarea>
 
       <button
+        id="submitBtn"
         onclick="submitAnswer()"
-        class="mt-4 bg-[#1F2A3A] text-white px-6 py-3 rounded-xl text-sm hover:opacity-90 active:scale-[0.98] transition"
+        class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-md shadow-indigo-600/30 active:scale-[0.98] transition"
       >
-        Submit Answer
+        Submit Answer for AI Evaluation
       </button>
     </div>
 
-    <!-- FEEDBACK -->
-    <div id="feedbackCard"
-         class="bg-white rounded-2xl p-6 shadow-sm hidden">
-      <h2 class="text-lg font-semibold text-[#0F172A] mb-2">
-        Feedback
-      </h2>
+    <!-- FEEDBACK CARD -->
+    <div id="feedbackCard" class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hidden space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h2 class="text-lg font-bold text-slate-900">AI Evaluation Feedback</h2>
+        <span id="scoreBadge" class="text-sm font-extrabold px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200"></span>
+      </div>
 
-      <p id="scoreText" class="text-sm mb-2"></p>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-emerald-50/60 border border-emerald-100 p-4 rounded-2xl">
+          <p class="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">✓ Matched Keywords & Strengths</p>
+          <ul id="matchedList" class="list-disc ml-5 text-sm text-emerald-900 space-y-1"></ul>
+        </div>
 
-      <p class="text-sm font-medium mb-1">What went well:</p>
-      <ul id="matchedList" class="list-disc ml-6 text-sm text-gray-600 mb-3"></ul>
-
-      <p class="text-sm font-medium mb-1">You can improve by mentioning:</p>
-      <ul id="missingList" class="list-disc ml-6 text-sm text-gray-600"></ul>
+        <div class="bg-amber-50/60 border border-amber-100 p-4 rounded-2xl">
+          <p class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2">💡 Suggested Keywords to Include</p>
+          <ul id="missingList" class="list-disc ml-5 text-sm text-amber-900 space-y-1"></ul>
+        </div>
+      </div>
 
       <button
         onclick="nextQuestion()"
-        class="mt-4 border border-gray-300 px-5 py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.98] transition"
+        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-3 rounded-xl text-sm transition"
       >
-        Next Question
+        Next Question →
       </button>
     </div>
 
   </div>
 
-  <!-- SCRIPT -->
-  <script defer>
-    const role = localStorage.getItem("interview_role");
-
-    if (!role) {
-      alert("No interview role found.");
-      window.location.href = "dashboard.html";
-    }
-
-    document.getElementById("roleTitle").innerText =
-      `Mock Interview for ${role}`;
+  <script>
+    const role = localStorage.getItem("interview_role") || "Data Analyst";
+    document.getElementById("roleTitle").innerText = `Mock Interview for ${role}`;
 
     let questions = [];
     let currentIndex = 0;
     let totalScore = 0;
     let answeredCount = 0;
 
-
     async function loadQuestions() {
-      const res = await fetch("https://internsarthi-hhn7.onrender.com/interview/questions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role })
-      });
+      try {
+        const res = await fetch(`${API_BASE_URL}/interview/questions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role })
+        });
 
-      const data = await res.json();
-      totalScore += data.confidence_score;
-      answeredCount += 1;
+        const data = await res.json();
+        questions = data.questions || [];
 
-      questions = data.questions || [];
+        if (!questions.length) {
+          document.getElementById("questionText").innerText = "No questions available for this role.";
+          return;
+        }
 
-      if (!questions.length) {
-        document.getElementById("questionText").innerText =
-          "No questions available for this role.";
-        return;
+        showQuestion();
+      } catch (err) {
+        console.error("Failed to load interview questions:", err);
+        document.getElementById("questionText").innerText = "Failed to load questions. Make sure backend is running.";
       }
-
-      showQuestion();
     }
 
     function showQuestion() {
       document.getElementById("feedbackCard").classList.add("hidden");
       document.getElementById("answer").value = "";
-      document.getElementById("questionText").innerText =
-        questions[currentIndex];
+      document.getElementById("questionCounter").innerText = `Question ${currentIndex + 1} of ${questions.length}`;
+      document.getElementById("questionText").innerText = questions[currentIndex];
     }
 
     async function submitAnswer() {
       const answer = document.getElementById("answer").value.trim();
       if (!answer) {
-        alert("Please type an answer");
+        alert("Please type an answer before submitting.");
         return;
       }
 
-      const res = await fetch("https://internsarthi-hhn7.onrender.com/interview/evaluate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          role,
-          answer
-        })
-      });
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.innerText = "Evaluating Answer...";
+      submitBtn.disabled = true;
 
-      const data = await res.json();
+      try {
+        const res = await fetch(`${API_BASE_URL}/interview/evaluate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role, answer })
+        });
 
-      document.getElementById("scoreText").innerText =
-        `Confidence Score: ${data.confidence_score}%`;
+        const data = await res.json();
+        const confScore = data.confidence_score || 50;
+        totalScore += confScore;
+        answeredCount += 1;
 
-      const matched = document.getElementById("matchedList");
-      matched.innerHTML = "";
-      data.matched_keywords.forEach(k => {
-        const li = document.createElement("li");
-        li.innerText = k;
-        matched.appendChild(li);
-      });
+        document.getElementById("scoreBadge").innerText = `Confidence Score: ${confScore}%`;
 
-      const missing = document.getElementById("missingList");
-      missing.innerHTML = "";
-      data.missing_keywords.forEach(k => {
-        const li = document.createElement("li");
-        li.innerText = k;
-        missing.appendChild(li);
-      });
+        const matched = document.getElementById("matchedList");
+        matched.innerHTML = "";
+        if (data.matched_keywords && data.matched_keywords.length) {
+          data.matched_keywords.forEach(k => {
+            const li = document.createElement("li");
+            li.innerText = k;
+            matched.appendChild(li);
+          });
+        } else {
+          matched.innerHTML = "<li>No specific technical keywords matched</li>";
+        }
 
-      document.getElementById("feedbackCard").classList.remove("hidden");
+        const missing = document.getElementById("missingList");
+        missing.innerHTML = "";
+        if (data.missing_keywords && data.missing_keywords.length) {
+          data.missing_keywords.forEach(k => {
+            const li = document.createElement("li");
+            li.innerText = k;
+            missing.appendChild(li);
+          });
+        } else {
+          missing.innerHTML = "<li>Great answer! Covered essential keywords.</li>";
+        }
+
+        document.getElementById("feedbackCard").classList.remove("hidden");
+      } catch (err) {
+        console.error("Error evaluating answer:", err);
+        alert("Failed to evaluate answer. Check backend status.");
+      } finally {
+        submitBtn.innerText = "Submit Answer for AI Evaluation";
+        submitBtn.disabled = false;
+      }
     }
 
-    function nextQuestion() {
-      currentIndex++;
-
-      if (currentIndex >= questions.length) {
-        const readinessScore = Math.round(totalScore / answeredCount);
-
-        saveInterviewHistory(readinessScore);
-
-        alert(`Interview completed!\nYour readiness score: ${readinessScore}%`);
-        window.location.href = "dashboard.html";
-        return;
-      }
-
     function saveInterviewHistory(score) {
-      const history =
-        JSON.parse(localStorage.getItem("interview_history")) || [];
-
+      const history = JSON.parse(localStorage.getItem("interview_history")) || [];
       history.push({
         role: role,
         date: new Date().toLocaleDateString(),
         questions_attempted: answeredCount,
         readiness_score: score
       });
-
       localStorage.setItem("interview_history", JSON.stringify(history));
     }
 
-
-
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex >= questions.length) {
+        const readinessScore = answeredCount ? Math.round(totalScore / answeredCount) : 0;
+        saveInterviewHistory(readinessScore);
+        alert(`Mock Interview session completed!\nOverall Readiness Score: ${readinessScore}%`);
+        window.location.href = "dashboard.html";
+        return;
+      }
       showQuestion();
     }
 

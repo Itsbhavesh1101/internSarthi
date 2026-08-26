@@ -5,323 +5,292 @@
   <title>Internship Matches – internSarthi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
 
-<body class="bg-[#ECEDED] min-h-screen font-sans">
+<body class="bg-slate-50 min-h-screen text-slate-800">
 
-<nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
-  <div class="w-full px-8 py-3 flex justify-between items-center">
-    <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
-
-    <div class="flex gap-4 text-sm items-center">
-      <a href="recommend.html"
-         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
-        Internships
-      </a>
-
-      <a href="skill_gap.html"
-         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
-        Learning Path
-      </a>
-
-      <a href="dashboard.html"
-         class="bg-[#1F2A3A] text-white px-4 py-2 rounded-xl text-sm
-                hover:opacity-90 active:scale-[0.98] transition">
-        Dashboard
-      </a>
-    </div>
-  </div>
-</nav>
-
-  <!-- PAGE HEADER -->
-<div class="max-w-6xl mx-auto px-4 mt-6 mb-6">
-  <h1 class="text-2xl font-bold text-[#0F172A] tracking-tight">
-    Internship Matches
-  </h1>
-  <p class="text-sm text-gray-500 mt-1">
-    Personalized internship recommendations based on your profile
-  </p>
-</div>
-
-<div class="max-w-6xl mx-auto px-4">
-  <div class="h-px bg-gray-200"></div>
-</div>
-
-
-  <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm p-8">
-
-
-    <!-- HEADER -->
-    <div class="mb-6">
-      <h1 id="welcome" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
-      <div class="flex justify-between items-center mb-6">
-        <a href="skill_gap.html"
-           class="bg-[#1F2A3A] text-white px-5 py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.98] transition">
-          View Learning Path
-        </a>
-
-        <a href="dashboard.html"
-           class="text-sm text-gray-600 underline hover:opacity-90 active:scale-[0.98] transition">
-          Go to Dashboard
-        </a>
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 text-white font-black rounded-xl w-9 h-9 flex items-center justify-center shadow-md shadow-indigo-600/30">
+          iS
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-900">internSarthi</span>
       </div>
 
-      <p class="text-sm text-gray-500">
-        These internships are selected based on your role and skills.
-      </p>
+      <div class="flex items-center gap-6 text-sm font-medium">
+        <a href="recommend.html" class="text-indigo-600 font-semibold border-b-2 border-indigo-600 pb-0.5">Internships</a>
+        <a href="skill_gap.html" class="text-slate-600 hover:text-indigo-600 transition">Learning Path</a>
+        <a href="linkedin.html" class="text-slate-600 hover:text-indigo-600 transition">LinkedIn Analyzer</a>
+        <a href="dashboard.html" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl transition shadow-sm">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- PAGE HEADER -->
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <h1 id="welcome" class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Loading your recommendations...
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">
+          AI-matched internships tailored specifically to your skills and role goals.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="skill_gap.html" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-4 py-2.5 rounded-xl text-sm transition">
+          View Skill Gaps
+        </a>
+        <a href="profile.html" class="border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold px-4 py-2.5 rounded-xl text-sm transition">
+          Edit Profile
+        </a>
+      </div>
     </div>
 
-    <!-- INFO CARD -->
-    <div class="bg-[#1F2A3A] rounded-xl p-5 text-[#F9FAFB] mb-8">
-      <p class="text-sm leading-relaxed">
-        Each internship below shows the skills you already have and the skills
-        you may need to learn. You don’t need to be perfect to start.
-      </p>
+    <!-- REASONING BANNER -->
+    <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-5 shadow-sm flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">⚡</span>
+        <p class="text-sm text-slate-200">
+          <strong>Skill Matching Active:</strong> Review skills you have vs. skills to learn for each position before applying.
+        </p>
+      </div>
     </div>
 
-    <!-- RESULTS -->
-    <div id="internshipList" class="space-y-6">
-      <p class="text-sm text-gray-500">Loading internships...</p>
+    <!-- INTERNSHIPS LIST -->
+    <div id="internshipList" class="space-y-4">
+      <div class="bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-600 border-t-transparent mb-3"></div>
+        <p class="text-sm font-medium">Finding best internship matches from database...</p>
+      </div>
     </div>
-
 
   </div>
 
-  <!-- SCRIPT -->
   <script>
-  const name = localStorage.getItem("user_name") || "there";
-  const roles = JSON.parse(localStorage.getItem("user_roles")) || [];
+    const name = localStorage.getItem("user_name") || "there";
+    const roles = JSON.parse(localStorage.getItem("user_roles")) || [];
 
-  if (!roles.length) {
-    alert("No roles found. Please complete your profile again.");
-    window.location.href = "profile.html";
-  }
+    if (!roles.length) {
+      alert("No roles found. Please setup your profile.");
+      window.location.href = "profile.html";
+    }
 
-  // ORIGINAL skills (for display only if needed)
-  const userSkillsOriginal =
-    (localStorage.getItem("user_skills") || "")
+    const userSkillsOriginal = (localStorage.getItem("user_skills") || "")
       .split(",")
       .map(s => s.trim())
       .filter(Boolean);
 
-  // LOWERCASE copy (ONLY for comparison / backend)
-  const userSkillsLower =
-    userSkillsOriginal.map(s => s.toLowerCase());
+    const userSkillsLower = userSkillsOriginal.map(s => s.toLowerCase());
 
+    document.getElementById("welcome").innerText = `Hi ${name}, here are your best internship matches`;
 
-  document.getElementById("welcome").innerText =
-    `Hi ${name}, here are the best internship matches for you`;
+    async function fetchAllRecommendations() {
+      let allResults = [];
+      for (const role of roles) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/recommend`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              role: role,
+              user_skills: userSkillsLower
+            })
+          });
 
-  async function fetchAllRecommendations() {
-    let allResults = [];
-
-    for (const role of roles) {
-      try {
-        const res = await fetch("https://internsarthi-hhn7.onrender.com/recommend", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            role: role,
-            user_skills: userSkillsLower
-          })
-        });
-
-        const data = await res.json();
-
-        data.forEach(item => {
-          item.target_role = role;
-          allResults.push(item);
-        });
-
-      } catch (err) {
-        console.error("Failed to fetch for role:", role, err);
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            data.forEach(item => {
+              item.target_role = role;
+              allResults.push(item);
+            });
+          }
+        } catch (err) {
+          console.error("Failed to fetch recommendations for role:", role, err);
+        }
       }
+      return allResults;
     }
 
-    return allResults;
-  }
-
-  function removeDuplicates(list) {
-    const map = new Map();
-    list.forEach(item => {
-      const key = item.internship_title + item.company_name;
-      if (!map.has(key)) {
-        map.set(key, item);
-      }
-    });
-    return Array.from(map.values());
-  }
-
-  function sortResults(list) {
-    return list.sort((a, b) => {
-      if (a.match_type === b.match_type) {
-        return b.match_score - a.match_score;
-      }
-      return a.match_type === "primary" ? -1 : 1;
-    });
-  }
-
-
-  const safe = str =>
-    String(str || "").replace(/'/g, "&#39;");
-
-
-
-
-  async function initRecommendations() {
-    const container = document.getElementById("internshipList");
-    container.innerHTML =
-      "<p class='text-sm text-gray-500'>Loading internships...</p>";
-
-    let results = await fetchAllRecommendations();
-    results = removeDuplicates(results);
-    results = sortResults(results);
-
-    container.innerHTML = "";
-
-    if (!results.length) {
-      container.innerHTML =
-        "<p class='text-sm text-gray-500'>No internships matched your current profile. Try adding more skills or roles.</p>";
-      return;
+    function removeDuplicates(list) {
+      const map = new Map();
+      list.forEach(item => {
+        const key = (item.internship_title + "|" + item.company_name).toLowerCase();
+        if (!map.has(key)) {
+          map.set(key, item);
+        }
+      });
+      return Array.from(map.values());
     }
 
-    results.forEach(item => {
-      const title = safe(item.internship_title);
-      const company = safe(item.company_name);
-      const location = safe(item.location);
-      const role = safe(item.target_role);
+    function sortResults(list) {
+      return list.sort((a, b) => {
+        if (a.match_type === b.match_type) {
+          return b.match_score - a.match_score;
+        }
+        return a.match_type === "primary" ? -1 : 1;
+      });
+    }
 
-      const card = document.createElement("div");
-      card.className =
-        "bg-white border border-[#E5E7EB] rounded-xl p-6";
+    const safe = str => String(str || "").replace(/'/g, "&#39;");
 
-      card.innerHTML = `
-        <span class="text-xs bg-[#1F2A3A]/10 text-[#1F2A3A]
-                     px-2 py-1 rounded-full mb-2 inline-block">
-          Role: ${role}
-        </span>
+    async function initRecommendations() {
+      const container = document.getElementById("internshipList");
+      let results = await fetchAllRecommendations();
+      results = removeDuplicates(results);
+      results = sortResults(results);
 
-        <h3 class="text-lg font-semibold text-[#0F172A]">
-          ${title}
-        </h3>
+      container.innerHTML = "";
 
-        <p class="text-sm text-gray-500 mb-2">
-          ${company} • ${location}
-        </p>
+      if (!results.length) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-12 text-center border border-slate-200">
+            <p class="text-base font-semibold text-slate-700">No matching internships found</p>
+            <p class="text-sm text-slate-500 mt-1">Try updating your skills or target roles in your profile.</p>
+            <a href="profile.html" class="inline-block mt-4 bg-indigo-600 text-white font-semibold px-5 py-2.5 rounded-xl text-sm">Update Profile</a>
+          </div>
+        `;
+        return;
+      }
 
-        <p class="text-sm mb-3">
-          Match score: <b>${item.match_score}%</b>
-        </p>
+      results.forEach(item => {
+        const title = safe(item.internship_title);
+        const company = safe(item.company_name);
+        const location = safe(item.location);
+        const role = safe(item.target_role);
 
-        <div class="grid md:grid-cols-2 gap-4 mt-4">
-          <div>
-            <p class="text-sm font-medium mb-1">You already know</p>
-            <ul class="list-disc ml-6 text-sm text-gray-600">
-              ${
-                item.skills_you_have.length
-                  ? item.skills_you_have.map(s => `<li>${s}</li>`).join("")
-                  : "<li>No matching skills yet</li>"
-              }
-            </ul>
+        let badgeClass = "bg-emerald-50 text-emerald-700 border-emerald-200";
+        if (item.match_score < 50) badgeClass = "bg-amber-50 text-amber-700 border-amber-200";
+        else if (item.match_score < 80) badgeClass = "bg-indigo-50 text-indigo-700 border-indigo-200";
+
+        const card = document.createElement("div");
+        card.className = "bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition";
+
+        card.innerHTML = `
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-100 pb-4 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                  Target: ${role}
+                </span>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${item.match_type === 'primary' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-600'}">
+                  ${item.match_type} Match
+                </span>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 hover:text-indigo-600 cursor-pointer transition" onclick="openDetails('${title}', '${company}')">
+                ${title}
+              </h3>
+              <p class="text-sm font-medium text-slate-500 mt-0.5">
+                ${company} • 📍 ${location}
+              </p>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="text-right">
+                <span class="text-xs text-slate-400 font-medium block">Match Score</span>
+                <span class="inline-block border px-3 py-1 rounded-xl font-extrabold text-sm ${badgeClass}">
+                  ${item.match_score}%
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <p class="text-sm font-medium mb-1">You can learn next</p>
-            <ul class="list-disc ml-6 text-sm text-gray-600">
-              ${
-                item.skills_to_learn.length
-                  ? item.skills_to_learn.map(s => `<li>${s}</li>`).join("")
-                  : "<li>You are ready for this role</li>"
-              }
-            </ul>
+          <div class="grid md:grid-cols-2 gap-4 my-4 bg-slate-50/70 p-4 rounded-xl border border-slate-100">
+            <div>
+              <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <span class="text-emerald-500">✓</span> Skills You Have
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                ${
+                  item.skills_you_have.length
+                    ? item.skills_you_have.map(s => `<span class="bg-emerald-100/70 text-emerald-800 text-xs px-2.5 py-1 rounded-lg font-medium">${s}</span>`).join("")
+                    : "<span class='text-xs text-slate-400 italic'>No direct skill overlap yet</span>"
+                }
+              </div>
+            </div>
+
+            <div>
+              <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <span class="text-indigo-500">🚀</span> Skills to Learn
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                ${
+                  item.skills_to_learn.length
+                    ? item.skills_to_learn.map(s => `<span class="bg-indigo-100/70 text-indigo-800 text-xs px-2.5 py-1 rounded-lg font-medium">${s}</span>`).join("")
+                    : "<span class='text-xs text-emerald-600 font-medium'>Ready for this position! 🎉</span>"
+                }
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="flex gap-3 mt-5">
-          <button
-            class="bg-[#1F2A3A] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.98] transition"
-            onclick="applyInternship('${title}','${company}','${location}')">
-            Apply
-          </button>
+          <div class="flex items-center justify-between mt-4">
+            <button
+              class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline"
+              onclick="openDetails('${title}', '${company}')">
+              View Internship Details →
+            </button>
 
-          <button
-            class="border border-gray-300 px-4 py-2 rounded-lg text-sm hover:opacity-90 active:scale-[0.98] transition"
-            onclick="saveInternship('${title}','${company}','${location}')">
-            Save
-          </button>
-        </div>
-      `;
+            <div class="flex gap-2">
+              <button
+                class="border border-slate-300 hover:bg-slate-100 text-slate-700 font-medium px-4 py-2 rounded-xl text-xs active:scale-[0.98] transition"
+                onclick="saveInternship('${title}','${company}','${location}')">
+                Save
+              </button>
 
-      container.appendChild(card);
-});
+              <button
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2 rounded-xl text-xs shadow-md shadow-indigo-600/20 active:scale-[0.98] transition"
+                onclick="applyInternship('${title}','${company}','${location}')">
+                Apply Now
+              </button>
+            </div>
+          </div>
+        `;
 
-  }
-
-  function applyInternship(title, company, location) {
-    let applied = JSON.parse(localStorage.getItem("applied_internships")) || [];
-
-    const exists = applied.some(
-      i => i.title === title && i.company === company
-    );
-
-    if (exists) {
-      alert("You have already applied for this internship.");
-      return;
+        container.appendChild(card);
+      });
     }
 
-    applied.push({
-      title,
-      company,
-      location,
-    });
-
-    localStorage.setItem(
-      "applied_internships",
-      JSON.stringify(applied)
-    );
-
-    alert("Internship marked as applied!");
-  }
-
-
-
-
-  function saveInternship(title, company, location) {
-    let saved = JSON.parse(localStorage.getItem("saved_internships")) || [];
-
-    const exists = saved.some(
-      i => i.title === title && i.company === company
-    );
-
-    if (exists) {
-      alert("This internship is already saved.");
-      return;
+    function openDetails(title, company) {
+      localStorage.setItem("selected_internship", JSON.stringify({ title, company }));
+      window.location.href = "internship_details.html";
     }
 
-    saved.push({
-      title,
-      company,
-      location,
-    });
+    function applyInternship(title, company, location) {
+      let applied = JSON.parse(localStorage.getItem("applied_internships")) || [];
+      const exists = applied.some(i => i.title === title && i.company === company);
+      if (exists) {
+        alert("You have already marked this internship as applied.");
+        return;
+      }
+      applied.push({ title, company, location, date: new Date().toLocaleDateString() });
+      localStorage.setItem("applied_internships", JSON.stringify(applied));
+      alert("Internship marked as applied! Updated in your Dashboard.");
+    }
 
-    localStorage.setItem(
-      "saved_internships",
-      JSON.stringify(saved)
-    );
+    function saveInternship(title, company, location) {
+      let saved = JSON.parse(localStorage.getItem("saved_internships")) || [];
+      const exists = saved.some(i => i.title === title && i.company === company);
+      if (exists) {
+        alert("This internship is already saved.");
+        return;
+      }
+      saved.push({ title, company, location });
+      localStorage.setItem("saved_internships", JSON.stringify(saved));
+      alert("Internship saved successfully!");
+    }
 
-    alert("Internship saved successfully!");
-  }
-
-
-
-
-
-  initRecommendations();
-</script>
-
+    initRecommendations();
+  </script>
 
 </body>
 </html>
-
-
-

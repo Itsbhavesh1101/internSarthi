@@ -2,128 +2,167 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>LinkedIn Analyzer – internSarthi</title>
+  <title>LinkedIn Profile Analyzer – internSarthi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
 
-<body class="bg-[#F9FAFB] text-[#374151]">
+<body class="bg-slate-50 min-h-screen text-slate-800">
 
-<nav class="bg-white border-b border-[#E5E7EB]">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 text-white font-black rounded-xl w-9 h-9 flex items-center justify-center shadow-md shadow-indigo-600/30">
+          iS
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-900">internSarthi</span>
+      </div>
 
-    <div class="text-xl font-bold text-black">
-      internSarthi
+      <div class="flex items-center gap-6 text-sm font-medium">
+        <a href="recommend.html" class="text-slate-600 hover:text-indigo-600 transition">Internships</a>
+        <a href="skill_gap.html" class="text-slate-600 hover:text-indigo-600 transition">Learning Path</a>
+        <a href="linkedin.html" class="text-indigo-600 font-semibold border-b-2 border-indigo-600 pb-0.5">LinkedIn Analyzer</a>
+        <a href="dashboard.html" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl transition shadow-sm">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">AI Optimizer</span>
+      </div>
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-1">
+        LinkedIn Profile & Keyword Analyzer
+      </h2>
+      <p class="text-sm text-slate-500">
+        Paste your LinkedIn “About” section or bio text to check role alignment and discover missing high-value keywords.
+      </p>
     </div>
 
-    <div class="space-x-6 text-sm font-medium">
-      <a href="index.html" class="hover:underline">Home</a>
-      <a href="profile.html" class="hover:underline">Profile</a>
-      <a href="recommend.html" class="hover:underline">Internships</a>
-      <a href="skill_gap.html" class="hover:underline">Skill Gap</a>
-      <a href="linkedin.html" class="hover:underline">LinkedIn</a>
-      <a href="interview.html" class="hover:underline">Interview</a>
-      <a href="dashboard.html" class="hover:underline">Dashboard</a>
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-5">
+      <div>
+        <label class="block text-sm font-semibold text-slate-800 mb-1">LinkedIn Profile Text / Summary</label>
+        <textarea
+          id="profileText"
+          rows="6"
+          class="w-full border border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          placeholder="Paste your LinkedIn About section or experience text here (e.g. Computer Science student passionate about Data Analytics, Python, SQL, Machine Learning...)"
+        ></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-800 mb-1">Target Internship Role</label>
+        <input
+          id="targetRole"
+          type="text"
+          class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          placeholder="e.g. Data Analyst"
+        />
+      </div>
+
+      <button
+        id="analyzeBtn"
+        onclick="analyzeLinkedIn()"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow-md shadow-indigo-600/30 active:scale-[0.98] transition flex items-center gap-2"
+      >
+        <span>Analyze Profile & Keywords</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results" class="space-y-4 hidden">
+      <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+        <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <span>💼</span> Detected Roles Alignment
+        </h3>
+        <ul id="roles" class="list-disc ml-5 text-sm text-slate-600 space-y-1"></ul>
+      </div>
+
+      <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+        <h3 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <span>✅</span> Detected Skills
+        </h3>
+        <ul id="skills" class="list-disc ml-5 text-sm text-slate-600 space-y-1"></ul>
+      </div>
+
+      <div class="bg-indigo-50/70 border border-indigo-100 p-6 rounded-2xl shadow-sm">
+        <h3 class="font-bold text-indigo-900 mb-2 flex items-center gap-2">
+          <span>🚀</span> Recommended Keywords & Skills to Add
+        </h3>
+        <ul id="missing" class="list-disc ml-5 text-sm text-indigo-950 space-y-1"></ul>
+      </div>
     </div>
 
   </div>
-</nav>
 
+  <script>
+    const savedLinkedin = localStorage.getItem("user_linkedin") || "";
+    const savedRoles = JSON.parse(localStorage.getItem("user_roles")) || [];
+    if (savedRoles.length) {
+      document.getElementById("targetRole").value = savedRoles[0];
+    }
 
+    async function analyzeLinkedIn() {
+      const text = document.getElementById("profileText").value.trim();
+      const role = document.getElementById("targetRole").value.trim();
 
-<div class="max-w-4xl mx-auto p-8">
+      if (!text || !role) {
+        alert("Please enter both your LinkedIn profile text and target role.");
+        return;
+      }
 
-  <h2 class="text-3xl font-bold text-black mb-4">
-    LinkedIn Profile Analyzer
-  </h2>
+      const analyzeBtn = document.getElementById("analyzeBtn");
+      analyzeBtn.innerText = "Analyzing Text...";
+      analyzeBtn.disabled = true;
 
-  <p class="mb-6">
-    Paste your LinkedIn “About” or experience text below.
-    We will analyze it and suggest improvements.
-  </p>
+      try {
+        const res = await fetch(`${API_BASE_URL}/linkedin/analyze`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            profile_text: text,
+            target_role: role
+          })
+        });
 
-  <!-- Input -->
-  <label class="block mb-2 font-medium">LinkedIn Profile Text</label>
-  <textarea
-    id="profileText"
-    rows="6"
-    class="w-full border p-3 mb-4"
-    placeholder="Example: I worked as a data analyst using python and sql..."></textarea>
+        const data = await res.json();
+        document.getElementById("results").classList.remove("hidden");
 
-  <label class="block mb-2 font-medium">Target Role</label>
-  <input
-    id="targetRole"
-    type="text"
-    class="w-full border p-2 mb-6"
-    placeholder="data analyst">
+        document.getElementById("roles").innerHTML =
+          data.detected_roles && data.detected_roles.length
+            ? data.detected_roles.map(r => `<li>${r}</li>`).join("")
+            : "<li>No explicit roles matched in profile text</li>";
 
-  <button
-    onclick="analyzeLinkedIn()"
-    class="bg-black text-white px-6 py-2 rounded">
-    Analyze Profile
-  </button>
+        document.getElementById("skills").innerHTML =
+          data.detected_skills && data.detected_skills.length
+            ? data.detected_skills.map(s => `<li>${s}</li>`).join("")
+            : "<li>No specific skills detected</li>";
 
-  <!-- Results -->
-  <div id="results" class="mt-8 hidden">
+        document.getElementById("missing").innerHTML =
+          data.missing_keywords && data.missing_keywords.length
+            ? data.missing_keywords.map(k => `<li>${k}</li>`).join("")
+            : "<li>Your profile is well-aligned with the target role!</li>";
 
-    <div class="bg-white border border-[#E5E7EB] p-6 rounded mb-4">
-      <h3 class="font-bold text-black mb-2">Detected Roles</h3>
-      <ul id="roles" class="list-disc ml-5"></ul>
-    </div>
-
-    <div class="bg-white border border-[#E5E7EB] p-6 rounded mb-4">
-      <h3 class="font-bold text-black mb-2">Detected Skills</h3>
-      <ul id="skills" class="list-disc ml-5"></ul>
-    </div>
-
-    <div class="bg-white border border-[#E5E7EB] p-6 rounded">
-      <h3 class="font-bold text-black mb-2">Skills / Keywords to Add</h3>
-      <ul id="missing" class="list-disc ml-5"></ul>
-    </div>
-
-  </div>
-
-</div>
-
-<script>
-function analyzeLinkedIn() {
-  const text = document.getElementById("profileText").value;
-  const role = document.getElementById("targetRole").value;
-
-  if (!text || !role) {
-    alert("Please enter profile text and target role");
-    return;
-  }
-
-  fetch("http://127.0.0.1:8001/linkedin/analyze", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      profile_text: text,
-      target_role: role
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("results").classList.remove("hidden");
-
-    document.getElementById("roles").innerHTML =
-      data.detected_roles.length
-        ? data.detected_roles.map(r => `<li>${r}</li>`).join("")
-        : "<li>No roles detected</li>";
-
-    document.getElementById("skills").innerHTML =
-      data.detected_skills.length
-        ? data.detected_skills.map(s => `<li>${s}</li>`).join("")
-        : "<li>No skills detected</li>";
-
-    document.getElementById("missing").innerHTML =
-      data.missing_keywords.length
-        ? data.missing_keywords.map(k => `<li>${k}</li>`).join("")
-        : "<li>No missing keywords</li>";
-  });
-}
-</script>
+      } catch (err) {
+        console.error("LinkedIn analysis error:", err);
+        alert("Failed to analyze profile. Check backend connection.");
+      } finally {
+        analyzeBtn.innerHTML = `<span>Analyze Profile & Keywords</span>`;
+        analyzeBtn.disabled = false;
+      }
+    }
+  </script>
 
 </body>
 </html>

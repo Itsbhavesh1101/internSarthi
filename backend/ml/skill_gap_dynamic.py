@@ -1,6 +1,8 @@
+import os
 import pandas as pd
 
-DATASET_PATH = "data/internships.csv"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+DATASET_PATH = os.path.join(BASE_DIR, "data", "internships.csv")
 
 def extract_role_skills(role_keyword: str):
     """

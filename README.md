@@ -1,205 +1,254 @@
-# internSarthi – AI-Powered Internship Recommendation System
+# 🚀 internSarthi — AI-Powered Internship Recommendation & Career Readiness Platform
 
-internSarthi is an AI-driven internship recommendation platform designed to help students—especially those from rural or low-digital backgrounds—discover the most relevant internships based on their skills, interests, and career goals.  
-The system provides personalized internship recommendations, identifies skill gaps, and helps users prepare for interviews.
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688.svg?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Pytest Status](https://img.shields.io/badge/Tests-Passing_100%25-brightgreen.svg?style=for-the-badge&logo=pytest&logoColor=white)](https://pytest.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
----
+**internSarthi** is an intelligent, AI-driven career guidance and internship recommendation ecosystem built to democratize opportunity for students and early-career job seekers—especially those from tier-2/3 cities and low-digital backgrounds. 
 
-## 🚀 Problem Statement
-
-- Many students struggle to find suitable internships due to:
-  - Lack of digital awareness and guidance
-  - Overwhelming number of internship listings
-  - Skill mismatch between student profiles and internship requirements
-- There is no simple system that:
-  - Matches internships intelligently
-  - Highlights missing skills
-  - Helps students prepare for interviews
+By evaluating user skill profiles against real-world internship market demands, **internSarthi** delivers personalized internship matching, pinpoints missing skills, provides dynamic learning roadmaps, parses resumes for ATS optimization, and offers AI-powered mock interview feedback.
 
 ---
 
-## 💡 Proposed Solution
+## 💡 Key Features
 
-internSarthi provides a **lightweight AI-powered solution** that:
-
-- Recommends internships based on:
-  - Target roles
-  - User skills
-  - Skill similarity and relevance
-- Identifies **skill gaps** for each internship
-- Suggests **what to learn next**
-- Tracks:
-  - Saved internships
-  - Applied internships
-  - Interview practice history
-- Offers **AI-based interview preparation and readiness scoring**
+- **🎯 AI Internship Recommender**: Intelligent matching algorithm that scores role relevance, skill overlaps, and ranks primary and related opportunities.
+- **📊 Dynamic Skill Gap Analysis**: Computes exact missing skills for each internship listing and provides step-by-step learning roadmaps.
+- **🤖 Interactive AI Mock Interview Practice**: Role-specific interview questions and confidence evaluation based on domain keyword extraction.
+- **📄 Resume ATS Analyzer**: Extracts technical skills from PDF resumes and evaluates ATS compatibility score with targeted improvement tips.
+- **💼 LinkedIn Profile Optimizer**: Analyzes profile text to identify target role alignment and suggests high-impact missing industry keywords.
+- **📈 Personal Progress Dashboard**: Tracks saved internships, application status, ATS score benchmarks, and past mock interview history in one unified interface.
+- **🌐 Dynamic API URL Auto-Detection**: Seamlessly switches between local dev environment (`http://127.0.0.1:8001`) and live production deployment.
 
 ---
 
-## 🧠 Is This an AI / ML Project?
+## 🏗️ System Architecture & Data Flow
 
-✅ **Yes**
+```mermaid
+flowchart TD
+    subgraph Client ["Frontend (HTML5 / Tailwind CSS / Vanilla JS)"]
+        UI["User Interface (Dashboard / Recommendations / Interview / Profile)"]
+        Config["Config Manager (js/config.js)"]
+    end
 
-The project uses:
-- Intelligent matching logic
-- Skill similarity analysis
-- Heuristic-based AI decision making
-- Personalized recommendations
-- Dynamic skill gap detection
+    subgraph API ["Backend Service (FastAPI / Uvicorn)"]
+        Router["Router Layer (/recommend, /skill-gap, /interview, /resume, /linkedin)"]
+        CORS["CORS & Static Files Middleware"]
+    end
 
-Although it does not rely on deep learning models, it qualifies as an **Applied AI / ML system**, which is widely used in real-world industry products.
+    subgraph Intelligence ["ML & AI Reasoning Engine"]
+        Recommender["InternshipRecommender (Fuzzy Matching & Skill Overlap)"]
+        SkillGap["Skill Gap Evaluator"]
+        InterviewEngine["Interview Evaluator & Question Generator"]
+        ResumeParser["PDF Resume ATS Parser"]
+        LinkedInAnalyzer["LinkedIn Profile Analyzer"]
+    end
 
----
+    subgraph Data ["Data Storage"]
+        CSV[("internships.csv (Market Dataset)")]
+        LocalStorage[("Browser LocalStorage (User Profile & History)")]
+    end
 
-## 🛠️ Tech Stack
+    UI --> Config
+    Config --> Router
+    Router --> Recommender
+    Router --> SkillGap
+    Router --> InterviewEngine
+    Router --> ResumeParser
+    Router --> LinkedInAnalyzer
 
-### Frontend
-- HTML5
-- Tailwind CSS
-- Vanilla JavaScript
-
-### Backend
-- Python
-- FastAPI
-
-### AI / Logic Layer
-- Skill similarity analysis
-- Rule-based recommendation engine
-- Dynamic skill gap computation
-- Interview readiness evaluation
-
-### Data
-- CSV-based dataset (`internships.csv`)
-
----
-
-## 📂 Project Structure
-
-```text
-internSarthi/
-│
-├── backend/
-│   ├── main.py
-│   ├── requirements.txt
-│   │
-│   ├── ml/
-│   │   ├── recommender.py
-│   │   ├── skill_gap.py
-│   │   ├── skill_gap_dynamic.py
-│   │   ├── resume_parser.py
-│   │   ├── linkedin_analyzer.py
-│   │   ├── interview_evaluator.py
-│   │   ├── interview_questions.py
-│   │   ├── experience_scorer.py
-│   │   ├── career_suggester.py
-│   │   └── dashboard_state.py
-│   │
-│   ├── routes/
-│   │   ├── recommend.py
-│   │   ├── recommend_advanced.py
-│   │   ├── internship_detail.py
-│   │   ├── interview.py
-│   │   ├── resume.py
-│   │   ├── linkedin.py
-│   │   └── skill_gap.py
-│
-├── data/
-│   └── internships.csv
-│
-├── frontend/
-│   ├── dashboard.html
-│   ├── recommend.html
-│   ├── internship_details.html
-│   ├── skill_gap.html
-│   ├── interview.html
-│   └── profile.html
-│
-└── README.md
+    Recommender --> CSV
+    SkillGap --> CSV
+    UI <--> LocalStorage
+```
 
 ---
 
+## 🛠️ Tech Stack Matrix
 
-## ⚙️ How to Run Locally
+| Layer | Technologies & Tools |
+| :--- | :--- |
+| **Frontend** | HTML5, Tailwind CSS (CDN), JavaScript (ES6+), Plus Jakarta Sans Fonts |
+| **Backend API** | Python 3.10+, FastAPI, Uvicorn (ASGI Server), Pydantic v2 |
+| **Data Science / ML** | Pandas, Scikit-Learn, PyPDF2, Difflib SequenceMatcher |
+| **Testing** | Pytest, FastAPI TestClient, HTTPX |
+| **Deployment** | Render, Local Uvicorn Development Server |
 
-Follow these steps to set up the project on your local machine.
+---
 
-### 1️⃣ Backend Setup
+## 📡 API Reference & Endpoints
 
-Open your terminal and navigate to the backend folder:
-cd backend
---
+### 1. Internship Recommendation
+- **Endpoint**: `POST /recommend`
+- **Request Payload**:
+  ```json
+  {
+    "role": "Data Analyst",
+    "user_skills": ["python", "sql", "excel"]
+  }
+  ```
+- **Response Sample**:
+  ```json
+  [
+    {
+      "internship_title": "Data Analyst Intern",
+      "company_name": "Tech Corp",
+      "location": "Remote",
+      "match_type": "primary",
+      "match_score": 85,
+      "skills_you_have": ["Python", "SQL"],
+      "skills_to_learn": ["Power BI", "Tableau"]
+    }
+  ]
+  ```
 
-###Create and activate a virtual environment:
+### 2. Skill Gap Calculation
+- **Endpoint**: `POST /skill-gap/`
+- **Request Payload**:
+  ```json
+  {
+    "role": "Data Analyst",
+    "user_skills": ["python", "sql"]
+  }
+  ```
+- **Response Sample**:
+  ```json
+  {
+    "skills_you_have": ["python", "sql"],
+    "skills_to_learn": ["tableau", "power bi", "excel"],
+    "gap_percentage": 60
+  }
+  ```
+
+### 3. Mock Interview Questions & Evaluation
+- **Endpoint**: `POST /interview/questions` (`{"role": "Data Analyst"}`)
+- **Endpoint**: `POST /interview/evaluate`
+  ```json
+  {
+    "role": "Data Analyst",
+    "answer": "I use python pandas for data cleaning and sql for database queries."
+  }
+  ```
+
+### 4. Resume ATS Parser
+- **Endpoint**: `POST /resume/analyze` (Multipart Form Data with PDF file)
+
+### 5. LinkedIn Profile Analyzer
+- **Endpoint**: `POST /linkedin/analyze` (`{"profile_text": "...", "target_role": "Data Analyst"}`)
+
+---
+
+## 🚀 Local Quick-Start Guide
+
+### Prerequisites
+- Python 3.10 or higher installed
+- Git installed
+- Web browser (Chrome, Firefox, Edge)
+
+### 1. Clone Repository & Setup Virtual Environment
+```bash
+# Clone repository
+git clone https://github.com/Itsbhavesh1101/internSarthi.git
+cd internSarthi
 
 # Create virtual environment
 python -m venv venv
 
-# Activate (Windows)
+# Activate virtual environment
+# On Windows:
 venv\Scripts\activate
-
-# Activate (Linux / Mac)
+# On Linux/Mac:
 source venv/bin/activate
---
+```
 
-###Install dependencies and run the server:
-
+### 2. Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# Run the server on Port 8001
-uvicorn main:app --reload --port 8001
---
+### 3. Run Backend API Server
+```bash
+# Start server on port 8001
+python -m uvicorn backend.main:app --reload --port 8001
+```
+> The API server will start at `http://127.0.0.1:8001`. You can access interactive Swagger API documentation at `http://127.0.0.1:8001/docs`.
 
-### 2️⃣ Frontend Setup
-1. Navigate to the frontend folder.
-
-2. Open dashboard.html (or index.html) directly in your web browser.
-
-3. Note: Ensure the backend is running at http://127.0.0.1:8001 for data to load correctly.
----
-
-## 🔮 Future Enhancements
-
-The project can be further improved by adding:
-
-- Database integration (PostgreSQL / MongoDB)
-- User authentication and profiles
-- Resume upload and automatic parsing
-- Real-time internship listings via APIs
-- Advanced ML models for ranking and personalization
-- Analytics dashboard for skill and career progress
-- Cloud deployment with CI/CD
+### 4. Open Frontend App
+- Open `frontend/index.html` directly in your browser, or visit `http://127.0.0.1:8001/` when static file serving is active.
 
 ---
 
-## 👨‍🎓 Ideal Use Cases
+## 🧪 Running Automated Tests
 
-- College final-year or minor project
-- AI / ML portfolio project
-- Hackathons and innovation challenges
-- Career guidance platforms
-- Internship recommendation systems for institutions
+The repository includes a pytest suite covering all backend API routes.
 
----
-
-## 🏁 Conclusion
-
-internSarthi demonstrates how **AI-driven logic and data-based reasoning** can solve real-world career challenges.  
-The project combines:
-
-- Intelligent recommendation logic  
-- Skill gap analysis  
-- Clean and user-friendly UI  
-- Practical career support features  
-
-It is a strong example of an **applied AI/ML system** with real-world relevance.
+```bash
+python -m pytest tests/
+```
 
 ---
 
-## 📬 Author
+## 📂 Project Directory Structure
+
+```text
+internSarthi/
+├── backend/
+│   ├── main.py                     # Main FastAPI application entrypoint & static mounting
+│   ├── requirements.txt            # Backend Python dependencies
+│   ├── ml/
+│   │   ├── recommender.py          # Fuzzy matching & skill similarity recommendation engine
+│   │   ├── skill_gap.py            # Static skill gap evaluator
+│   │   ├── skill_gap_dynamic.py    # Dynamic skill gap extractor
+│   │   ├── resume_parser.py        # PDF resume text extraction & ATS scoring
+│   │   ├── linkedin_analyzer.py    # LinkedIn profile text keyword analyzer
+│   │   ├── interview_questions.py  # Interview question database per role
+│   │   ├── interview_evaluator.py  # Answer scoring & keyword matching
+│   │   ├── career_suggester.py     # Next career action recommendations
+│   │   ├── experience_scorer.py    # Experience scoring logic
+│   │   └── dashboard_state.py      # In-memory state manager
+│   └── routes/
+│       ├── recommend.py            # Primary recommendation endpoint
+│       ├── recommend_advanced.py   # Advanced multi-signal recommendation endpoint
+│       ├── skill_gap.py            # Skill gap router
+│       ├── interview.py            # Interview questions & evaluation router
+│       ├── resume.py               # Resume upload router
+│       ├── linkedin.py             # LinkedIn analyzer router
+│       ├── dashboard.py            # User dashboard state router
+│       ├── career.py               # Career suggestions router
+│       └── internship_detail.py    # Internship detail retrieval router
+├── data/
+│   └── internships.csv             # Structured dataset of internship opportunities
+├── frontend/
+│   ├── index.html                  # Landing page with user registration
+│   ├── profile.html                # User profile setup & resume upload
+│   ├── recommend.html              # Recommendation matches with match badges
+│   ├── skill_gap.html              # Personalized learning path & skill roadmaps
+│   ├── internship_details.html     # Deep dive into individual internship listing
+│   ├── interview.html              # Interactive mock interview practice UI
+│   ├── linkedin.html               # LinkedIn text & keyword optimizer UI
+│   ├── dashboard.html              # Personal career tracker & stats dashboard
+│   └── js/
+│       └── config.js               # Centralized dynamic API base URL configuration
+├── tests/
+│   └── test_api.py                 # Comprehensive Pytest suite for API endpoints
+├── .gitignore                      # Environment & cache ignore rules
+├── requirements.txt                # Unified project dependencies
+└── README.md                       # Project documentation
+```
+
+---
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 👤 Author & Maintainer
 
 **Bhavesh Barmashe**  
-Bachelor of Computer Science Engineering  
-AI / ML Enthusiast  
-
----
-
+*Bachelor of Computer Science Engineering*  
+*AI / ML Enthusiast*  
+- GitHub: [@Itsbhavesh1101](https://github.com/Itsbhavesh1101)

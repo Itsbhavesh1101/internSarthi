@@ -5,101 +5,92 @@
   <title>Your Learning Path – internSarthi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
 
-<body class="bg-[#ECEDED] min-h-screen font-sans">
-    <!-- NAVBAR -->
-  <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 shadow-sm">
-  <div class="w-full px-8 py-3 flex justify-between items-center">
-    <div class="text-2xl font-bold text-[#1F2A3A]">internSarthi</div>
+<body class="bg-slate-50 min-h-screen text-slate-800">
 
-    <div class="flex gap-4 text-sm items-center">
-      <a href="recommend.html"
-         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
-        Internships
-      </a>
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-3.5 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-600 text-white font-black rounded-xl w-9 h-9 flex items-center justify-center shadow-md shadow-indigo-600/30">
+          iS
+        </div>
+        <span class="text-xl font-bold tracking-tight text-slate-900">internSarthi</span>
+      </div>
 
-      <a href="skill_gap.html"
-         class="text-gray-600 hover:text-black hover:opacity-90 active:scale-[0.98] transition">
-        Learning Path
-      </a>
-
-      <a href="dashboard.html"
-         class="bg-[#1F2A3A] text-white px-4 py-2 rounded-xl text-sm
-                hover:opacity-90 active:scale-[0.98] transition">
-        Dashboard
-      </a>
+      <div class="flex items-center gap-6 text-sm font-medium">
+        <a href="recommend.html" class="text-slate-600 hover:text-indigo-600 transition">Internships</a>
+        <a href="skill_gap.html" class="text-indigo-600 font-semibold border-b-2 border-indigo-600 pb-0.5">Learning Path</a>
+        <a href="linkedin.html" class="text-slate-600 hover:text-indigo-600 transition">LinkedIn Analyzer</a>
+        <a href="dashboard.html" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl transition shadow-sm">Dashboard</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-
-  <!-- PAGE HEADER -->
-<div class="max-w-6xl mx-auto px-4 mt-6 mb-6">
-  <h1 class="text-2xl font-bold text-[#0F172A] tracking-tight">
-    Learning Path
-  </h1>
-  <p class="text-sm text-gray-500 mt-1">
-    Recommended skills to improve your internship readiness
-  </p>
-</div>
-
-<div class="max-w-6xl mx-auto px-4">
-  <div class="h-px bg-gray-200"></div>
-</div>
-
-  <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm p-8">
+  <!-- CONTENT -->
+  <div class="max-w-5xl mx-auto px-4 py-8 space-y-6">
 
     <!-- HEADER -->
-    <div class="mb-6">
-      <h1 id="heading" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
-      <p class="text-sm text-gray-500">
-        Here is a simple learning path based on internships you are interested in.
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+      <h1 id="heading" class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-1">
+        Personalized Learning Path
+      </h1>
+      <p class="text-sm text-slate-500">
+        Key skills to acquire to maximize your match percentage for target internships.
       </p>
     </div>
 
-    <!-- INFO CARD -->
-    <div class="bg-[#1F2A3A] rounded-xl p-5 text-[#F9FAFB] mb-8">
-      <p class="text-sm leading-relaxed">
-        You don’t need to learn everything at once.
-        Focus on one internship and build skills step by step.
-      </p>
+    <!-- GUIDANCE CARD -->
+    <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white rounded-2xl p-6 shadow-sm flex items-start gap-4">
+      <span class="text-3xl">💡</span>
+      <div>
+        <h3 class="font-bold text-base text-white">Step-by-step Skill Acquisition</h3>
+        <p class="text-sm text-slate-200 mt-1 leading-relaxed">
+          Focus on learning 1-2 missing skills per role. Once mastered, update your skills profile to re-rank your recommendation scores.
+        </p>
+      </div>
     </div>
 
     <!-- LEARNING PATH LIST -->
-    <div id="learningList" class="space-y-6">
-      <p class="text-sm text-gray-500">Loading learning path...</p>
+    <div id="learningList" class="space-y-4">
+      <div class="bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-indigo-600 border-t-transparent mb-3"></div>
+        <p class="text-sm font-medium">Computing dynamic skill gaps...</p>
+      </div>
     </div>
 
-    <!-- NEXT ACTION -->
-    <div class="mt-10 flex justify-between">
-      <a
-        href="recommend.html"
-        class="text-sm text-gray-600 underline"
-      >
-        ← Back to internships
+    <!-- BACK ACTION -->
+    <div class="pt-4 flex justify-between items-center">
+      <a href="recommend.html" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition flex items-center gap-1">
+        ← Back to Internship Matches
       </a>
-
+      <a href="dashboard.html" class="text-sm font-semibold text-indigo-600 hover:underline">
+        Go to Dashboard →
+      </a>
     </div>
 
   </div>
 
-  <!-- SCRIPT -->
   <script>
     const name = localStorage.getItem("user_name") || "there";
     const roles = JSON.parse(localStorage.getItem("user_roles")) || [];
-    const role = roles[0]; // use primary role
-    const skills = localStorage.getItem("user_skills");
+    const role = roles[0] || "Data Analyst";
+    const rawSkills = localStorage.getItem("user_skills") || "";
 
-    document.getElementById("heading").innerText =
-      `Hi ${name}, here’s your personalized learning path`;
+    document.getElementById("heading").innerText = `Hi ${name}, here’s your personalized skill roadmap`;
 
-    fetch("https://internsarthi-hhn7.onrender.com/recommend", {
+    fetch(`${API_BASE_URL}/recommend`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         role: role,
-        user_skills: skills.split(",").map(s => s.trim().toLowerCase())
+        user_skills: rawSkills.split(",").map(s => s.trim().toLowerCase()).filter(Boolean)
       })
     })
     .then(res => res.json())
@@ -107,45 +98,56 @@
       const container = document.getElementById("learningList");
       container.innerHTML = "";
 
-      if (!data.length) {
-        container.innerHTML =
-          "<p class='text-sm text-gray-500'>No learning suggestions available.</p>";
+      if (!Array.isArray(data) || !data.length) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-8 text-center border border-slate-200 text-slate-500">
+            No learning path suggestions available. Please add skills or roles in your profile.
+          </div>
+        `;
         return;
       }
 
       data.forEach(item => {
         const card = document.createElement("div");
-        card.className =
-          "bg-white border border-[#E5E7EB] rounded-xl p-6";
+        card.className = "bg-white border border-slate-200 rounded-2xl p-6 shadow-sm";
 
         card.innerHTML = `
-          <h3 class="text-lg font-semibold text-[#0F172A] mb-1">
-            ${item.internship_title}
-          </h3>
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">${item.internship_title}</h3>
+              <p class="text-xs font-medium text-slate-500">${item.company_name} • 📍 ${item.location}</p>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700">
+              Match: ${item.match_score}%
+            </span>
+          </div>
 
-          <p class="text-sm text-gray-500 mb-3">
-            ${item.company_name} • ${item.location}
-          </p>
+          <div class="my-3">
+            <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Recommended Skills to Master:</p>
+            <div class="flex flex-wrap gap-2">
+              ${
+                item.skills_to_learn.length
+                  ? item.skills_to_learn.map(s => `<span class="bg-amber-50 text-amber-800 border border-amber-200 text-xs px-3 py-1 rounded-lg font-semibold flex items-center gap-1">⚡ ${s}</span>`).join("")
+                  : "<span class='text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-lg'>🎉 You already possess all key skills for this role!</span>"
+              }
+            </div>
+          </div>
 
-          <p class="text-sm mb-3">
-            Skills you can learn for this internship:
-          </p>
-
-          <ul class="list-disc ml-6 text-sm text-gray-600">
-            ${
-              item.skills_to_learn.length
-                ? item.skills_to_learn.map(s => `<li>${s}</li>`).join("")
-                : "<li>You are already ready for this internship</li>"
-            }
-          </ul>
-
-          <p class="text-xs text-gray-500 mt-3">
-            Tip: Learn one or two skills first, then come back to apply.
+          <p class="text-xs text-slate-400 mt-4 border-t border-slate-100 pt-3">
+            Tip: Completing projects featuring these skills increases your ATS and readiness score.
           </p>
         `;
 
         container.appendChild(card);
       });
+    })
+    .catch(err => {
+      console.error("Skill gap error:", err);
+      document.getElementById("learningList").innerHTML = `
+        <div class="bg-white rounded-2xl p-8 text-center border border-slate-200 text-red-500 text-sm">
+          Failed to load skill gap recommendations. Please check your backend connection.
+        </div>
+      `;
     });
   </script>
 

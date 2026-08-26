@@ -19,7 +19,10 @@ class AdvancedRequest(BaseModel):
 @router.post("/")
 def advanced_recommend(data: AdvancedRequest):
 
-    base_results = recommender.recommend(data.user_skills)
+    base_results = recommender.recommend(
+        role=data.role,
+        user_skills=data.user_skills
+    )
 
     gap_result = calculate_skill_gap(
         role=data.role,

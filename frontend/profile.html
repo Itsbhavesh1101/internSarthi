@@ -5,26 +5,38 @@
   <title>Your Profile – internSarthi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
 
-<body class="bg-[#ECEDED] min-h-screen flex items-center justify-center px-4">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center p-4">
 
-  <div class="bg-white rounded-2xl shadow-sm w-full max-w-2xl p-8">
+  <div class="bg-white rounded-3xl shadow-xl border border-slate-100 w-full max-w-2xl p-8 transition-all">
 
     <!-- GREETING -->
     <div class="mb-6">
-      <h1 id="greeting" class="text-2xl font-bold text-[#0F172A] mb-1"></h1>
-      <p class="text-sm text-gray-500">
-        Let’s build your internship profile step by step.
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step 2 of 2</span>
+      </div>
+      <h1 id="greeting" class="text-3xl font-extrabold text-slate-900 tracking-tight mb-1">Hi there 👋</h1>
+      <p class="text-sm text-slate-500">
+        Let’s build your personalized internship recommendation profile.
       </p>
     </div>
 
-    <!-- INFO CARD -->
-    <div class="bg-[#1F2A3A] rounded-xl p-5 text-[#F9FAFB] mb-6">
-      <p class="text-sm leading-relaxed">
-        Don’t worry if you don’t know everything yet.
-        Just share what you already know — we’ll guide you from there.
-      </p>
+    <!-- INFO BANNER -->
+    <div class="bg-gradient-to-r from-slate-900 to-indigo-950 rounded-2xl p-5 text-white mb-6 shadow-md">
+      <div class="flex gap-3 items-start">
+        <svg class="w-6 h-6 text-indigo-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p class="text-sm text-slate-200 leading-relaxed">
+          Share your target job roles and current skills. Upload your resume to auto-extract your tech stack!
+        </p>
+      </div>
     </div>
 
     <!-- FORM -->
@@ -32,82 +44,78 @@
 
       <!-- ROLE -->
       <div>
-        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
-          Job role you want
+        <label class="block text-sm font-semibold mb-1 text-slate-800">
+          Target Job Roles <span class="text-red-500">*</span>
         </label>
         <input
           id="roles"
           type="text"
-          placeholder="Example: data analyst, business analyst"
-          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+          placeholder="e.g. Data Analyst, Web Developer, Machine Learning Engineer"
+          class="w-full rounded-xl px-4 py-3 border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
         />
-        <p class="text-xs text-gray-500 mt-1">
-          You can enter more than one role, separated by commas.
+        <p class="text-xs text-slate-500 mt-1">
+          Separate multiple roles with commas.
         </p>
       </div>
 
       <!-- SKILLS -->
       <div>
-        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
-          Skills you already know
+        <label class="block text-sm font-semibold mb-1 text-slate-800">
+          Skills You Currently Know
         </label>
         <input
           id="skills"
           type="text"
-          placeholder="Example: python, sql, excel"
-          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+          placeholder="e.g. Python, SQL, HTML, CSS, JavaScript"
+          class="w-full rounded-xl px-4 py-3 border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
         />
-        <p class="text-xs text-gray-500 mt-1">
-          Write skills separated by commas.
+        <p class="text-xs text-slate-500 mt-1">
+          Separate skills with commas.
         </p>
       </div>
 
-      <!-- Resume Upload -->
-      <div class="mt-6">
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Upload Resume (PDF)
+      <!-- RESUME UPLOAD -->
+      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+        <label class="block text-sm font-semibold text-slate-800 mb-1">
+          Upload Resume (PDF - Optional Auto-Analysis)
         </label>
 
         <input
           type="file"
           id="resume"
           accept=".pdf"
-          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+          class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer"
         />
 
-        <p class="text-xs text-gray-500 mt-1">
-          We will extract skills automatically from your resume.
+        <p class="text-xs text-slate-500 mt-2">
+          We will analyze your resume for technical skills and calculate an ATS readiness score.
         </p>
       </div>
 
-
       <!-- LINKEDIN -->
       <div>
-        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
-          LinkedIn profile (optional)
+        <label class="block text-sm font-semibold mb-1 text-slate-800">
+          LinkedIn Profile URL (Optional)
         </label>
         <input
           id="linkedin"
           type="text"
           placeholder="https://linkedin.com/in/yourname"
-          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+          class="w-full rounded-xl px-4 py-3 border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
         />
-        <p class="text-xs text-gray-500 mt-1">
-          Optional, but helps us understand your experience better.
-        </p>
       </div>
 
       <!-- SEEKING -->
       <div>
-        <label class="block text-sm font-medium mb-1 text-[#0F172A]">
-          What are you looking for?
+        <label class="block text-sm font-semibold mb-1 text-slate-800">
+          Internship Preference <span class="text-red-500">*</span>
         </label>
         <select
           id="seeking"
-          class="w-full rounded-lg px-4 py-3 border border-[#E5E7EB]"
+          class="w-full rounded-xl px-4 py-3 border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm bg-white"
         >
-          <option value="">Select one</option>
-          <option value="internship">Internship</option>
+          <option value="">Select preference</option>
+          <option value="internship" selected>Any Internship</option>
           <option value="remote">Remote Internship</option>
           <option value="paid">Paid Internship</option>
         </select>
@@ -117,26 +125,27 @@
 
     <!-- BUTTON -->
     <button
+      id="saveBtn"
       onclick="saveProfile()"
-      class="w-full mt-8 bg-[#1F2A3A] text-white py-3 rounded-xl font-medium hover:opacity-90 active:scale-[0.98] transition"
+      class="w-full mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-indigo-600/30 active:scale-[0.99] transition flex items-center justify-center gap-2"
     >
-      Save & Continue
+      <span>Find Matches & Continue</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+      </svg>
     </button>
 
   </div>
 
-  <!-- SCRIPT -->
   <script>
-    // Greeting
     const name = localStorage.getItem("user_name") || "there";
-    document.getElementById("greeting").innerText = `Hii ${name} 👋`;
-
+    document.getElementById("greeting").innerText = `Hi ${name} 👋`;
 
     async function uploadResume(file) {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch("https://internsarthi-hhn7.onrender.com/resume/analyze", {
+      const res = await fetch(`${API_BASE_URL}/resume/analyze`, {
         method: "POST",
         body: formData
       });
@@ -144,8 +153,8 @@
       return res.json();
     }
 
-
     async function saveProfile() {
+      const saveBtn = document.getElementById("saveBtn");
       const rolesInput = document.getElementById("roles").value.trim();
       const skillsInput = document.getElementById("skills").value.trim();
       const linkedin = document.getElementById("linkedin").value.trim();
@@ -153,7 +162,7 @@
       const resumeFile = document.getElementById("resume").files[0];
 
       if (!rolesInput || !seeking) {
-        alert("Please fill in the required details");
+        alert("Please enter target job role and select internship preference");
         return;
       }
 
@@ -169,10 +178,15 @@
       let resumeUploaded = false;
 
       if (resumeFile) {
+        saveBtn.innerText = "Analyzing Resume...";
+        saveBtn.disabled = true;
         try {
           const resumeData = await uploadResume(resumeFile);
-          if (resumeData.extracted_skills) {
-            skills = [...new Set([...skills, ...resumeData.extracted_skills])];
+          if (resumeData.skills_found && resumeData.skills_found.length) {
+            skills = [...new Set([...skills, ...resumeData.skills_found])];
+          }
+          if (resumeData.ats_score) {
+            localStorage.setItem("ats_score", resumeData.ats_score);
           }
           resumeUploaded = true;
         } catch (err) {
@@ -182,9 +196,10 @@
 
       localStorage.setItem("resume_uploaded", resumeUploaded ? "yes" : "no");
 
-
       if (!skills.length) {
-        alert("Please enter skills or upload a resume");
+        alert("Please enter at least one skill or upload a resume");
+        saveBtn.innerText = "Find Matches & Continue";
+        saveBtn.disabled = false;
         return;
       }
 
@@ -195,8 +210,6 @@
 
       window.location.href = "recommend.html";
     }
-  
-
   </script>
 
 </body>
